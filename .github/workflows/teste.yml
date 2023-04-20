@@ -3,7 +3,7 @@ name: "teste"
 on: #definir em que momento disparar o action
   push: #acao que dispara a action
     branches: #nome da branche que recebe o push para disparar  action
-      - main
+      - Payton-Exercicios
       
 jobs: #diretriz para executar as tarefas do workflow
   teste: #nome do job
