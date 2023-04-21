@@ -2,20 +2,22 @@ name: testeCI
 
 on:
   push:
-    branches: main
+    branches: 
+      main
     
   workflow_dispatch:  
     
         
 jobs:
-  name: testeCI 
+  testeCI: 
     build:
      runs-on: ubuntu-latest
     
     steps: 
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
     
-    - name: Run script
+    - name: Rodar script
     - run: 
         echo "deu certo aqui".
   
