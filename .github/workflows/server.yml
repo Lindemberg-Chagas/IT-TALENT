@@ -1,0 +1,18 @@
+name: Servidor
+
+on:
+  push:
+    branches:
+     - main
+  workflow_dispatch:
+
+jobs:
+  servidor:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.5.2
+      
+      - name: HTTP server
+        uses: Eun/http-server-action@v1.0.6
