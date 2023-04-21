@@ -6,13 +6,33 @@ on:
         - main
   
 jobs:
-  testeCI:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v3.5.2
       
       - name: Run Script
-        run: echo "ate aqui deu certo"
+        run: echo "subindo servidor"
+     
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment:
+       name: desenvolvimento
+       url: "devopsbasico.com"
+    needs: build
+    steps: 
+         - name: Run Script
+           run: echo "etapa de desenvolvimento"
+           
+  deploy-teste:
+    runs-on: ubuntu-latest
+    environment:
+       name: teste
+       url: "devopsbasico.com"
+    needs: deploy-dev
+    steps: 
+         - name: Run Script
+           run: echo "etapa de teste"      
+   
         
