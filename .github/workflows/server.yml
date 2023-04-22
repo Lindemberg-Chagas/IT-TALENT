@@ -3,7 +3,7 @@ name: Servidor
 on:
   push:
     branches:
-     - main
+     - action
   workflow_dispatch:
 
 jobs:
