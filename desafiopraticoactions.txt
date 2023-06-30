@@ -1,0 +1,86 @@
+Workflows de CI e CD no Github Actions
+Kelvin Alef
+•
+27 de abr.
+Exercícios Práticos
+•
+10/10
+10 pontos de 10 possíveis
+Data de entrega: 3 de mai.
+Seguir o que foi mostrado no encontro síncrono conforme as aulas gravadas já disponíveis no teams no canal "Aulas Gravadas e Slides" e anexar o link do repositório publico do github aqui na atividade.
+
+
+Pode usar qualquer repositorio, mas se não tiver nenhum, pode clonar o repositorio que criamos para nossas atividades: 
+https://github.com/kelvin-alef/react-app.git
+
+
+Boa prática!
+
+Segue abaixo alguns comandos úteis:
+
+
+Gerar chave pública e privada ssh (substituir "<email>" pelo seu email):
+ssh-keygen -t rsa -b 4096 -C "<email>" 
+
+
+Logar como root: 
+sudo su - 
+ 
+Criar usuário (substituir "<usuario>" pelo nome do usuário em todos os comandos abaixo): 
+sudo useradd --create-home -d /home/<usuario> -s /bin/bash <usuario> 
+ 
+Logar como o usuario: 
+sudo su - <usuario> 
+ 
+Para gerar o diretorio ".ssh" corretamente: 
+ssh <usuario>@localhost 
+ 
+Editar o arquivo com as chaves autorizadas (adicionar a chave pública no arquivo ".pub" aqui): 
+vim /home/<usuario>/.ssh/authorized_keys 
+ 
+Configurar permissões do arquivo da chave: 
+chmod 400 /home/<usuario>/.ssh/authorized_keys 
+
+Adicionar o usuario ao sudores para que tenha permissão "sudo" (adicionar a linha abaixo do comando no arquivo editado): 
+sudo visudo -f /etc/sudoers.d/<usuario> 
+<usuario> ALL=(ALL) NOPASSWD:ALL 
+
+Autorizar login com chave publica e privada (mudar o PubkeyAuthentication de "no" para "yes"): 
+sudo vim /etc/ssh/sshd_config 
+PubkeyAuthentication yes 
+
+Conteudo do arquivo sonar-project.properties:
+
+
+sonar.organization=organization-key
+sonar.projectKey=
+
+organization-key _project-name
+sonar.sources=. 
+sonar.language=js,jsx,ts,tsx 
+sonar.javascript.file.suffixes=.js,.jsx 
+sonar.typescript.file.suffixes=.ts,.tsx 
+sonar.sourceEncoding=UTF-8 
+
+Step para configurar conexão ssh:
+
+- name: Configure SSH Google Cloud
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/google-cloud.key
+          chmod 600 ~/.ssh/google-cloud.key
+          cat >>~/.ssh/config <<END
+          Host google-cloud
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/google-cloud.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.GOOGLE_CLOUD_SSH_USER }}
+          SSH_KEY: ${{ secrets.GOOGLE_CLOUD_SSH_KEY }}
+          SSH_HOST: ${{ secrets.GOOGLE_CLOUD_SSH_HOST }}
+
+
+Executar um comando com a conexao ssh configurada:
+ssh google-cloud 'sudo comando aqui'
